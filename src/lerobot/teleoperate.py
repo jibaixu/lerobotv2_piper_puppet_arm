@@ -28,7 +28,29 @@ python -m lerobot.teleoperate \
     --teleop.id=blue \
     --display_data=true
 ```
+
+Example teleoperation with piper:
+
+python -m lerobot.teleoperate \
+  --robot.type=piper_follower \
+  --robot.id=piper_follower \
+  --robot.cameras='{image: {"type": "intelrealsense", "serial_number_or_name": "317422074519", "width": 640, "height": 360, "fps": 30}, wristimage: {"type": "intelrealsense", "serial_number_or_name": "317422075321", "width": 640, "height": 360, "fps": 30}}' \
+  --teleop.type=piper_leader \
+  --teleop.id=piper_leader \
+  --display_data=true
+```
+
 """
+def debug_on():
+    import sys
+    sys.argv.extend([
+        "--robot.type=piper_follower",
+        "--robot.id=piper_follower",
+        "--teleop.type=piper_leader",
+        "--teleop.id=piper_leader",
+        "--display_data=true",
+    ])
+# debug_on()
 
 import logging
 import time
@@ -47,6 +69,7 @@ from lerobot.robots import (  # noqa: F401
     make_robot_from_config,
     so100_follower,
     so101_follower,
+    piper_follower, #! 虽然没有使用，但是必须导入，否则会报输入参数错误
 )
 from lerobot.teleoperators import (  # noqa: F401
     Teleoperator,
@@ -56,6 +79,7 @@ from lerobot.teleoperators import (  # noqa: F401
     make_teleoperator_from_config,
     so100_leader,
     so101_leader,
+    piper_leader,   #! 虽然没有使用，但是必须导入，否则会报输入参数错误
 )
 from lerobot.utils.robot_utils import busy_wait
 from lerobot.utils.utils import init_logging, move_cursor_up

@@ -33,7 +33,38 @@ python -m lerobot.record \
     # <- Policy optional if you want to record with a policy \
     # --policy.path=${HF_USER}/my_policy \
 ```
+
+Example teleoperation with piper:
+
+```shell
+
+python -m lerobot.record \
+  --robot.type=piper_follower \
+  --robot.id=piper_follower \
+  --robot.cameras='{image: {"type": "intelrealsense", "serial_number_or_name": "317422074519", "width": 640, "height": 360, "fps": 30}, wristimage: {"type": "intelrealsense", "serial_number_or_name": "317422075321", "width": 640, "height": 360, "fps": 30}}' \
+  --teleop.type=piper_leader \
+  --teleop.id=piper_leader \
+  --display_data=true \
+  --dataset.repo_id=test/piper-test11 \
+  --dataset.num_episodes=2 \
+  --dataset.push_to_hub=false \
+  --dataset.single_task="Test piper"
+
 """
+def debug_on():
+    import sys
+    sys.argv.extend([
+        "--robot.type=piper_follower",
+        "--robot.id=piper_follower",
+        "--teleop.type=piper_leader",
+        "--teleop.id=piper_leader",
+        "--display_data=true",
+        '--dataset.repo_id=test/piper-test4',
+        '--dataset.num_episodes=2',
+        '--dataset.push_to_hub=false',
+        '--dataset.single_task="Test piper"',
+    ])
+# debug_on()
 
 import logging
 import time
@@ -61,6 +92,7 @@ from lerobot.robots import (  # noqa: F401
     make_robot_from_config,
     so100_follower,
     so101_follower,
+    piper_follower,
 )
 from lerobot.teleoperators import (  # noqa: F401
     Teleoperator,
@@ -69,6 +101,7 @@ from lerobot.teleoperators import (  # noqa: F401
     make_teleoperator_from_config,
     so100_leader,
     so101_leader,
+    piper_leader,
 )
 from lerobot.teleoperators.keyboard.teleop_keyboard import KeyboardTeleop
 from lerobot.utils.control_utils import (
