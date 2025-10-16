@@ -140,9 +140,9 @@ class PIPERFollower(Robot):
         if not self.is_connected:
             raise DeviceNotConnectedError("Piper is not connected.")
 
-        target_joints = [action[f"{motor}.pos"] for motor in self.bus.motors]
+        target_state = [action[f"{motor}.pos"] for motor in self.bus.motors]
 
-        self.bus.write(target_joints)
+        self.bus.write(target_state)
         return action
 
     def disconnect(self):

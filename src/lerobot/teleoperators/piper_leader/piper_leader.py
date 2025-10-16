@@ -104,7 +104,7 @@ class PIPERLeader(Teleoperator):
         action_raw = self.bus.read()  # 原始单位 0.001°
         joint_factor = 57295.7795  # 度转弧度比例因子（可调）
         action = {
-            f"{motor}.pos": val / joint_factor if motor != "gripper" else val / 1_000_000
+            f"{motor}.pos": val / joint_factor if motor != "gripper" and motor[0] not in ['X', 'Y', 'Z'] else val / 1_000_000
             for motor, val in action_raw.items()
         }
         return action

@@ -65,7 +65,7 @@ class PIPERMotorsBus():
             "gripper": gripper_state.grippers_angle
         }
 
-    def write(self, target_joint:list):
+    def write(self, target_state:list):
         """
             Joint control
             - target joint: in radians
@@ -77,13 +77,13 @@ class PIPERMotorsBus():
                 joint_6 (float): 关节6角度 -90000 ~ 90000 / 57324.840764
                 gripper_range: 夹爪角度 0~0.08
         """
-        joint_0 = round(target_joint[0]*self.factor)
-        joint_1 = round(target_joint[1]*self.factor)
-        joint_2 = round(target_joint[2]*self.factor)
-        joint_3 = round(target_joint[3]*self.factor)
-        joint_4 = round(target_joint[4]*self.factor)
-        joint_5 = round(target_joint[5]*self.factor)
-        gripper_range = round(target_joint[-1]*1000*1000)
+        joint_0 = round(target_state[0]*self.factor)
+        joint_1 = round(target_state[1]*self.factor)
+        joint_2 = round(target_state[2]*self.factor)
+        joint_3 = round(target_state[3]*self.factor)
+        joint_4 = round(target_state[4]*self.factor)
+        joint_5 = round(target_state[5]*self.factor)
+        gripper_range = round(target_state[-1]*1000*1000)
 
         self.piper.MotionCtrl_2(0x01, 0x01, 100, 0x00)
         self.piper.JointCtrl(joint_0, joint_1, joint_2, joint_3, joint_4, joint_5)
