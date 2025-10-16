@@ -43,6 +43,9 @@ class PIPERMotorsBus():
         joint_msg = self.piper.GetArmJointMsgs()
         joint_state = joint_msg.joint_state
 
+        end_pose_msg = self.piper.GetArmEndPoseMsgs()
+        end_pose = end_pose_msg.end_pose
+
         gripper_msg = self.piper.GetArmGripperMsgs()
         gripper_state = gripper_msg.gripper_state
 
@@ -53,6 +56,12 @@ class PIPERMotorsBus():
             "joint_4": joint_state.joint_4,
             "joint_5": joint_state.joint_5,
             "joint_6": joint_state.joint_6,
+            "X_axis": end_pose.X_axis,
+            "Y_axis": end_pose.Y_axis,
+            "Z_axis": end_pose.Z_axis,
+            "RX_axis": end_pose.RX_axis,
+            "RY_axis": end_pose.RY_axis,
+            "RZ_axis": end_pose.RZ_axis,
             "gripper": gripper_state.grippers_angle
         }
 
@@ -74,7 +83,7 @@ class PIPERMotorsBus():
         joint_3 = round(target_joint[3]*self.factor)
         joint_4 = round(target_joint[4]*self.factor)
         joint_5 = round(target_joint[5]*self.factor)
-        gripper_range = round(target_joint[6]*1000*1000)
+        gripper_range = round(target_joint[-1]*1000*1000)
 
         self.piper.MotionCtrl_2(0x01, 0x01, 100, 0x00)
         self.piper.JointCtrl(joint_0, joint_1, joint_2, joint_3, joint_4, joint_5)

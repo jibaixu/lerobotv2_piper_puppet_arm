@@ -54,7 +54,13 @@ class PIPERFollower(Robot):
                 "joint_4": (4, "agilex_piper"),
                 "joint_5": (5, "agilex_piper"),
                 "joint_6": (6, "agilex_piper"),
-                "gripper": (7, "agilex_piper"),
+                "X_axis": (7, "agilex_piper"),
+                "Y_axis": (8, "agilex_piper"),
+                "Z_axis": (9, "agilex_piper"),
+                "RX_axis": (10, "agilex_piper"),
+                "RY_axis": (11, "agilex_piper"),
+                "RZ_axis": (12, "agilex_piper"),
+                "gripper": (13, "agilex_piper"),
             }
         )
         self.bus = PIPERMotorsBus(config=bus_config)
