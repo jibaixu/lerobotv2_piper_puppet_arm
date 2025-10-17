@@ -77,13 +77,21 @@ class PIPERMotorsBus():
                 joint_6 (float): 关节6角度 -90000 ~ 90000 / 57324.840764
                 gripper_range: 夹爪角度 0~0.08
         """
-        joint_0 = round(target_state[0]*self.factor)
-        joint_1 = round(target_state[1]*self.factor)
-        joint_2 = round(target_state[2]*self.factor)
-        joint_3 = round(target_state[3]*self.factor)
-        joint_4 = round(target_state[4]*self.factor)
-        joint_5 = round(target_state[5]*self.factor)
-        gripper_range = round(target_state[-1]*1000*1000)
+        # joint_0 = round(target_state[0]*self.factor)
+        # joint_1 = round(target_state[1]*self.factor)
+        # joint_2 = round(target_state[2]*self.factor)
+        # joint_3 = round(target_state[3]*self.factor)
+        # joint_4 = round(target_state[4]*self.factor)
+        # joint_5 = round(target_state[5]*self.factor)
+        # gripper_range = round(target_state[-1]*1000*1000)
+
+        joint_0 = round(target_state[0])
+        joint_1 = round(target_state[1])
+        joint_2 = round(target_state[2])
+        joint_3 = round(target_state[3])
+        joint_4 = round(target_state[4])
+        joint_5 = round(target_state[5])
+        gripper_range = round(target_state[-1])
 
         self.piper.MotionCtrl_2(0x01, 0x01, 100, 0x00)
         self.piper.JointCtrl(joint_0, joint_1, joint_2, joint_3, joint_4, joint_5)
