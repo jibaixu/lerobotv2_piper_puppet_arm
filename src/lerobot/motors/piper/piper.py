@@ -65,7 +65,7 @@ class PIPERMotorsBus():
             "gripper": gripper_state.grippers_angle
         }
 
-    def write(self, target_state:list):
+    def write_joint(self, target_state:list):
         """
             Joint control
             - target joint: in radians
@@ -95,4 +95,36 @@ class PIPERMotorsBus():
 
         self.piper.MotionCtrl_2(0x01, 0x01, 100, 0x00)
         self.piper.JointCtrl(joint_0, joint_1, joint_2, joint_3, joint_4, joint_5)
+        self.piper.GripperCtrl(abs(gripper_range), 1000, 0x01, 0)  # 单位 0.001°
+
+    def write_endpose(self, target_state:list):
+        """
+            End pose control
+            - target end pose: in mm and radians
+                X_axis (float): X轴位置 (0.001mm)
+                Y_axis (float): Y轴位置 (0.001mm)
+                Z_axis (float): Z轴位置 (0.001mm)
+                RX_axis (float): 绕X轴旋转 (0.01 degrees)
+                RY_axis (float): 绕Y轴旋转 (0.01 degrees)
+                RZ_axis (float): 绕Z轴旋转 (0.01 degrees)
+                gripper_range: 夹爪角度 0~0.08
+        """
+        # X_axis = round(target_state[6]*1000*1000)
+        # Y_axis = round(target_state[7]*1000*1000)
+        # Z_axis = round(target_state[8]*1000*1000)
+        # RX_axis = round(target_state[9]*self.factor)
+        # RY_axis = round(target_state[10]*self.factor)
+        # RZ_axis = round(target_state[11]*self.factor)
+        # gripper_range = round(target_state[-1]*1000*1000)
+
+        X_axis = round(target_state[6])
+        Y_axis = round(target_state[7])
+        Z_axis = round(target_state[8])
+        RX_axis = round(target_state[9])
+        RY_axis = round(target_state[10])
+        RZ_axis = round(target_state[11])
+        gripper_range = round(target_state[-1])
+
+        self.piper.MotionCtrl_2(0x01, 0x00, 100, 0x00)
+        self.piper.EndPoseCtrl(X_axis, Y_axis, Z_axis, RX_axis, RY_axis, RZ_axis)
         self.piper.GripperCtrl(abs(gripper_range), 1000, 0x01, 0)  # 单位 0.001°

@@ -142,7 +142,7 @@ class PIPERFollower(Robot):
 
         target_state = [action[f"{motor}.pos"] for motor in self.bus.motors]
 
-        self.bus.write(target_state)
+        self.bus.write_joint(target_state)
         return action
 
     def disconnect(self):
