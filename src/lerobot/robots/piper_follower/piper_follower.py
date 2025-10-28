@@ -136,13 +136,23 @@ class PIPERFollower(Robot):
 
         return obs_dict
 
-    def send_action(self, action: dict[str, Any]) -> dict[str, Any]:
+    def send_action(self, action: dict[str, Any], move_mode: int = 0x01) -> dict[str, Any]:
+        """
+        - move_mode (int): MOVE mode.
+            0x00: MOVE P (Position/EndPose)
+            0x01: MOVE J (Joint) default
+        """
         if not self.is_connected:
             raise DeviceNotConnectedError("Piper is not connected.")
 
         target_state = [action[f"{motor}.pos"] for motor in self.bus.motors]
 
-        self.bus.write_joint(target_state)
+        if move_mode == 0x00:
+            self.bus.write_endpose(target_state)
+        elif move_mode == 0x01:
+            self.bus.write_joint(target_state)
+        else:
+            raise ValueError(f"Unsupported move_mode: {move_mode}")
         return action
 
     def disconnect(self):
